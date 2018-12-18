@@ -4,7 +4,6 @@ Python program that reads an input stream defining a family tree and determines 
 
 #!/usr/bin/python3
 # Allana Metz
-# Project 2
 
     import sys
 
@@ -12,12 +11,13 @@ Python program that reads an input stream defining a family tree and determines 
 
     input = sys.stdin.readline()  # reads first line of input
 
-   # method to add new person to tree with blank subdictionaries and lists
-    def addper(name): 
-    tree.update({name: {'p1': None, 'p2': None, 'SpouseList': [], 'Children': []}})
+  method to add new person to tree with blank subdictionaries and lists
+        
+        def addper(name): 
+        tree.update({name: {'p1': None, 'p2': None, 'SpouseList': [], 'Children': []}})
    
-   # p1 and p2 are the parents of the person
-   # name is the key to which the persons attributes are mapped
+   p1 and p2 are the parents of the person
+   name is the key to which the persons attributes are mapped
 
    # sets parents and children when someone is added
     def setParents(name, person1, person2):  
