@@ -6,32 +6,33 @@ Python program that reads an input stream defining a family tree and determines 
 # Allana Metz
 # Project 2
 
-import sys
+    import sys
 
-tree = {}  # initializes tree
+    tree = {}  # initializes tree
 
-input = sys.stdin.readline()  # reads first line of input
+    input = sys.stdin.readline()  # reads first line of input
 
-
-def addper(name):  # method to add new person to tree with blank subdictionaries and lists
+   # method to add new person to tree with blank subdictionaries and lists
+    def addper(name): 
     tree.update({name: {'p1': None, 'p2': None, 'SpouseList': [], 'Children': []}})
-    # p1 and p2 are the parents of the person
-    # name is the key to which the persons attributes are mapped
+   
+   # p1 and p2 are the parents of the person
+   # name is the key to which the persons attributes are mapped
+
+   # sets parents and children when someone is added
+    def setParents(name, person1, person2):  
+        tree[name]['p1'] = person1
+        tree[name]['p2'] = person2
+
+        tree[person1]['Children'].append(name)
+        tree[person2]['Children'].append(name)
 
 
-def setParents(name, person1, person2):  # sets parents and children when someone is added
-    tree[name]['p1'] = person1
-    tree[name]['p2'] = person2
-
-    tree[person1]['Children'].append(name)
-    tree[person2]['Children'].append(name)
-
-
-def setSpouse(name, spouse):
+    def setSpouse(name, spouse):
     tree[name]['SpouseList'].append(spouse)  # appends spouse to a list
 
 
-def listSpouse(name):
+    def listSpouse(name):
     if tree[name]['SpouseList'] != None:
         temp = list(set(tree[name]['SpouseList']))  # removes duplicates in spouselist
         temp.sort()  # sorts the spouselist
@@ -39,8 +40,8 @@ def listSpouse(name):
     else:
         print("\n" + input)
 
-
-def isSib(name1, name2):  # method to check if the two share a parent
+# method to check if the two share a parent
+    def isSib(name1, name2):  
     if (tree[name1]['p1'] == None or tree[name2]['p2'] == None):
         print("\n" + input + "No")
     elif tree[name1]['p1'] == tree[name2]['p1'] or tree[name1]['p2'] == tree[name2]['p2']:
@@ -51,7 +52,7 @@ def isSib(name1, name2):  # method to check if the two share a parent
         print("\n" + input + "No")
 
 
-def printSibs(name):
+    def printSibs(name):
     p1 = tree[name]['p1']
     p2 = tree[name]['p2']
 
@@ -66,18 +67,18 @@ def printSibs(name):
         print("\n" + input + "\n".join(temp))
 
 
-def printChildren(name):
+    def printChildren(name):
     temp = tree[name]['Children']
     temp = list(set(temp))  # removes duplicates
     temp.sort()
     print("\n" + input + "\n".join(temp))
 
 
-def isAncestor(name1, name2):
+    def isAncestor(name1, name2):
     return recurAncestors(name1, tree[name2]['p1'], tree[name2]['p2'])
 
 
-def recurAncestors(name1, p1, p2):
+    def recurAncestors(name1, p1, p2):
     if (p1 is not None):  # if the person name1 has parents
         if name1 == p1 or name1 == p2:
             return True
@@ -86,8 +87,8 @@ def recurAncestors(name1, p1, p2):
                                                                                            tree[p2]['p2'])
     return False
 
-
-def listAncestors(name1, ancestors):  # creats a list of all ancestors of a person recrusively
+# creats a list of all ancestors of a person recrusively
+    def listAncestors(name1, ancestors):  
     myList = ancestors  # ancestors is the list that gets passed through recursive calls
     if (tree[name1]['p1'] is not None):
         myList.append(tree[name1]['p1'])  # adds parents to ancestor list
@@ -97,25 +98,26 @@ def listAncestors(name1, ancestors):  # creats a list of all ancestors of a pers
         myList = list(set(myList))  # remove duplicates
         return myList
 
-
-def printAncestors(name):
-    temp = list(set(listAncestors(name, [])))  # prints listAncestors and sorts it
+# prints listAncestors and sorts it
+    def printAncestors(name):
+    temp = list(set(listAncestors(name, [])))  
     temp.sort()
     print("\n" + input + "\n".join(temp))
 
 
-def isCousin(name1, name2):
+    def isCousin(name1, name2):
     list1 = listAncestors(name1, [])
     list2 = listAncestors(name2, [])
 
-    if (not set(list1).isdisjoint(list2)):  # tests if they share a common ancestor
-        if (name1 not in list2) and (name2 not in list1):  # checks to see if they are ancestors of each other
+  # tests if they share a common ancestor 
+    if (not set(list1).isdisjoint(list2)):  
+        if (name1 not in list2) and (name2 not in list1):  
             return True
     else:
         return False
 
 
-def printCousins(name):
+    def printCousins(name):
     temp = []
     for key in tree.keys(): #for everone in tree
         if (isCousin(name, key)): #see if they are cousins
@@ -127,7 +129,7 @@ def printCousins(name):
     print("\n" + input + "\n".join(temp2))
 
 
-def isUnrelated(name1, name2):
+    def isUnrelated(name1, name2):
     list1 = listAncestors(name1, [])
     list2 = listAncestors(name2, [])
 
@@ -139,8 +141,9 @@ def isUnrelated(name1, name2):
     else:
         return False
 
-
-def listUnrelated(name1): #checks everone in tree and tests if they're unrelated to name1
+#checks everone in tree and tests if they're unrelated to name1
+    
+    def listUnrelated(name1): 
     temp = []
     for key in tree.keys():
         if (isUnrelated(name1, key)):
@@ -150,7 +153,7 @@ def listUnrelated(name1): #checks everone in tree and tests if they're unrelated
     print("\n" + input + "\n".join(temp2))
 
 
-while len(input) > 2: #while we have input
+    while len(input) > 2: #while we have input
 
     arg = input.rstrip() #removes whitespace
     args = arg.split(" ")
@@ -245,4 +248,7 @@ while len(input) > 2: #while we have input
 
         if relation == "unrelated":
             listUnrelated(person1)
-    input = sys.stdin.readline() #reads the next line of input before looping back
+    
+   #reads the next line of input before looping back
+   
+       input = sys.stdin.readline() 
