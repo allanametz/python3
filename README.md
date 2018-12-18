@@ -19,8 +19,9 @@ Python program that reads an input stream defining a family tree and determines 
    p1 and p2 are the parents of the person
    name is the key to which the persons attributes are mapped
 
-   # sets parents and children when someone is added
-    def setParents(name, person1, person2):  
+   sets parents and children when someone is added
+       
+       def setParents(name, person1, person2):  
         tree[name]['p1'] = person1
         tree[name]['p2'] = person2
 
@@ -40,7 +41,8 @@ Python program that reads an input stream defining a family tree and determines 
     else:
         print("\n" + input)
 
-# method to check if the two share a parent
+ method to check if the two share a parent
+    
     def isSib(name1, name2):  
     if (tree[name1]['p1'] == None or tree[name2]['p2'] == None):
         print("\n" + input + "No")
@@ -87,7 +89,8 @@ Python program that reads an input stream defining a family tree and determines 
                                                                                            tree[p2]['p2'])
     return False
 
-# creats a list of all ancestors of a person recrusively
+ creats a list of all ancestors of a person recrusively
+    
     def listAncestors(name1, ancestors):  
     myList = ancestors  # ancestors is the list that gets passed through recursive calls
     if (tree[name1]['p1'] is not None):
@@ -98,8 +101,9 @@ Python program that reads an input stream defining a family tree and determines 
         myList = list(set(myList))  # remove duplicates
         return myList
 
-# prints listAncestors and sorts it
-    def printAncestors(name):
+ prints listAncestors and sorts it
+     
+     def printAncestors(name):
     temp = list(set(listAncestors(name, [])))  
     temp.sort()
     print("\n" + input + "\n".join(temp))
@@ -109,8 +113,9 @@ Python program that reads an input stream defining a family tree and determines 
     list1 = listAncestors(name1, [])
     list2 = listAncestors(name2, [])
 
-  # tests if they share a common ancestor 
-    if (not set(list1).isdisjoint(list2)):  
+   tests if they share a common ancestor 
+   
+     if (not set(list1).isdisjoint(list2)):  
         if (name1 not in list2) and (name2 not in list1):  
             return True
     else:
@@ -141,9 +146,9 @@ Python program that reads an input stream defining a family tree and determines 
     else:
         return False
 
-#checks everone in tree and tests if they're unrelated to name1
+checks everone in tree and tests if they're unrelated to name1
     
-    def listUnrelated(name1): 
+        def listUnrelated(name1): 
     temp = []
     for key in tree.keys():
         if (isUnrelated(name1, key)):
@@ -249,6 +254,6 @@ Python program that reads an input stream defining a family tree and determines 
         if relation == "unrelated":
             listUnrelated(person1)
     
-   #reads the next line of input before looping back
+   reads the next line of input before looping back
    
        input = sys.stdin.readline() 
